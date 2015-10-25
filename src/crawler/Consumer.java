@@ -8,6 +8,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +21,7 @@ public class Consumer {
 
 	public void crawl(URL url)
 	{
-		HashSet<String> links = new HashSet<String>();
+		Set<String> timestamp = new HashSet<String>();
 
 		try{
 //			System.setProperty("http.proxyHost", "10.3.100.207");
@@ -37,13 +38,13 @@ public class Consumer {
 			}
 			Document doc = Jsoup.parse(String.valueOf(tmp));
 			
-			Elements divs = doc.select("a");
+			Elements divs = doc.select("div.tab-content div#placements table tr td:eq(4)");
 			for(Element div : divs){
-				String link = div.attr("href");
-				links.add(link);
+				String link = div.text();
+				timestamp.add(link);
 //				System.out.println(div.attr("href"));
 			}
-			for(String str:links){
+			for(String str:timestamp){
 				System.out.println(str);
 			}
 		} catch(IOException ex){
